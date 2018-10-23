@@ -7,11 +7,13 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static com.greenfoxacademy.jwtsecurity.security.SecurityConstants.HEADER_STRING;
@@ -48,7 +50,13 @@ public class MainController {
   }
 
   @GetMapping("/homepage")
-  public String getHomepage() {
+  public String getHomepage(Model model, HttpServletRequest request) {
+    String token = jwtProvider.getJwtStringFromHeader(request);
+    if (jwtProvider.validateJwtToken(token)) {
+      model.addAttribute("jwtToken", jwtProvider.getUserNameFromJwtToken(token));
+    } else {
+      model.addAttribute("jwtToken", "Fail :(");
+    }
     return "homepage";
   }
 }
