@@ -23,6 +23,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   ClientService clientService;
 
+  private JwtProvider jwtProvider;
+
+  public WebSecurityConfig() {
+    jwtProvider = new JwtProvider();
+  }
+
   @Override
   public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
     authenticationManagerBuilder
@@ -37,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  public PasswordEncoder passwordEncoder() {
+  public static PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
@@ -54,6 +60,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.cors().and().csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-    http.addFilterBefore(new JwtAuthenticationFilter("/signin", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(new JwtAuthenticationFilter("/signin", authenticationManager(), jwtProvider), UsernamePasswordAuthenticationFilter.class);
   }
 }

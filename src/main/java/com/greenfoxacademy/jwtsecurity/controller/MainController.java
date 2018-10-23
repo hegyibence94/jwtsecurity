@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,13 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 
+import static com.greenfoxacademy.jwtsecurity.security.WebSecurityConfig.passwordEncoder;
+
 @Controller
 public class MainController {
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
 
 
   PasswordEncoder encoder = passwordEncoder();
@@ -34,7 +31,6 @@ public class MainController {
   RoleService roleService;
   @Autowired
   ClientService clientService;
-
 
   @Bean
   public WebServerFactoryCustomizer customizer() {

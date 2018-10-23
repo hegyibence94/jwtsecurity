@@ -21,11 +21,12 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
   AuthenticationManager authenticationManager;
 
-  JwtProvider jwtProvider = new JwtProvider();
+  JwtProvider jwtProvider;
 
-  protected JwtAuthenticationFilter(String defaultFilterProcessesUrl, AuthenticationManager authenticationManager) {
+  protected JwtAuthenticationFilter(String defaultFilterProcessesUrl, AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
     super(defaultFilterProcessesUrl);
     this.authenticationManager = authenticationManager;
+    this.jwtProvider = jwtProvider;
   }
 
   @Override
