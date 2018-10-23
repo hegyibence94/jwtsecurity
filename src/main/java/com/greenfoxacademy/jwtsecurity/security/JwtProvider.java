@@ -2,13 +2,14 @@ package com.greenfoxacademy.jwtsecurity.security;
 
 import io.jsonwebtoken.*;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import static com.greenfoxacademy.jwtsecurity.security.SecurityConstants.EXPIRATION_TIME;
 import static com.greenfoxacademy.jwtsecurity.security.SecurityConstants.SECRET;
@@ -16,10 +17,10 @@ import static com.greenfoxacademy.jwtsecurity.security.SecurityConstants.SECRET;
 @Component
 public class JwtProvider {
 
-  public String generateJwtToken(String username, String password) {
+  public String generateJwtToken(Authentication authentication) {
 
     return Jwts.builder()
-        .setSubject(username)
+        .setSubject(((User) authentication.getPrincipal()).getUsername())
         .setIssuedAt(new Date())
         .setExpiration(new Date((new Date()).getTime() + EXPIRATION_TIME))
         .signWith(SignatureAlgorithm.HS512, SECRET)
