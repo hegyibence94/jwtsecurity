@@ -23,10 +23,10 @@ public class Client {
     roles = new HashSet<>();
   }
 
-  public Client(String username, String password, Set<ClientRole> roles) {
+  public Client(String username, String password) {
+    super();
     this.username = username;
     this.password = password;
-    this.roles = roles;
   }
 
   public Long getId() {

@@ -1,6 +1,7 @@
 package com.greenfoxacademy.devmasecurity1.controller;
 
 import com.greenfoxacademy.devmasecurity1.model.Client;
+import com.greenfoxacademy.devmasecurity1.security.models.ClientDTO;
 import com.greenfoxacademy.devmasecurity1.services.ClientService;
 import org.apache.tomcat.util.http.LegacyCookieProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,15 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import static com.greenfoxacademy.devmasecurity1.security.WebSecurityConfig.passwordEncoder;
 
 @Controller
 public class MainController {
@@ -32,17 +37,16 @@ public class MainController {
 
   @GetMapping("/register")
   public String getRegisterPage(Model model) {
-    model.addAttribute("newClient", new Client());
+    model.addAttribute("newClient", new ClientDTO());
     return "register";
   }
 
   @PostMapping("/register")
-  public String submitRegister(@ModelAttribute Client newClient) {
-    clientService.createNewClient(newClient);
+  public String submitRegister(@ModelAttribute ClientDTO newClient) {
+
+    clientService.createNewClient(new Client(newClient.getUsername(), passwordEncoder().encode(newClient.getPassword())));
     return "redirect:/login";
   }
-
-
 
   @GetMapping("/login")
   public String getLoginPage(Model model) {

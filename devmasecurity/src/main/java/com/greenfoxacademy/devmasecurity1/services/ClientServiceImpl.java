@@ -14,4 +14,9 @@ public class ClientServiceImpl implements ClientService {
   public Client createNewClient(Client client) {
     return clientRepository.save(client);
   }
+
+  @Override
+  public Client findByUsername(String username) {
+    return clientRepository.findByUsername(username);
+  }
 }
