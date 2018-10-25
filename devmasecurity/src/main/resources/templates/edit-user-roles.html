@@ -17,6 +17,17 @@
             <tr th:each="client : ${clients}" th:object="${client}">
                 <td th:text="*{id}"></td>
                 <td th:text="*{username}"></td>
+                <form action="/admin/add-role" method="post">
+                    <input hidden name="clientId" th:value="${client.id}">
+                    <td>
+                        <select name="roleId">
+                            <option th:each="role : ${roles}" th:object="${role}" th:value="*{id}" th:text="*{name}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit">
+                    </td>
+                </form>
                 <td th:each="role : *{roles}" th:object="${role}" th:text="*{name}"></td>
             </tr>
         </tbody>

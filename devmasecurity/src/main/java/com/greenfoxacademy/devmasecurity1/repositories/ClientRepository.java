@@ -1,7 +1,6 @@
 package com.greenfoxacademy.devmasecurity1.repositories;
 
 import com.greenfoxacademy.devmasecurity1.model.Client;
-import com.greenfoxacademy.devmasecurity1.model.ClientRole;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

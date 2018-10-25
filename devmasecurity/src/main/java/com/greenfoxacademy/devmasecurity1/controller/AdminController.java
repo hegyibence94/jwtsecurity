@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin")
@@ -16,7 +18,14 @@ public class AdminController {
 
   @GetMapping("/edit-user-roles")
   public String editUserRoles(Model model) {
-    model.addAttribute("clients", adminService.findAll());
+    model.addAttribute("clients", adminService.findAllClients());
+    model.addAttribute("roles", adminService.findAllRoles());
     return "edit-user-roles";
+  }
+
+  @PostMapping("/add-role")
+  public String addRoleToClient(@RequestParam(value = "clientId") Long clientId, @RequestParam(value = "roleId") Long roleId) {
+    adminService.addRoleToClient(clientId, roleId);
+    return "redirect:/admin/edit-user-roles";
   }
 }
