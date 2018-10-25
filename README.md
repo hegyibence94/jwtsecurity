@@ -16,6 +16,6 @@
 
 5. Registrate a new user at the /registrate endpoint.
 6. Give him admin role with the following SQL command:
-	INSERT INTO NAME_OF_YOUR_DATABASE.roles(client_id, client_role_id) VALUES(1,5);
+	INSERT INTO NAME_OF_YOUR_DATABASE.user_roles(client_id, client_role_id) VALUES(1,5);
 	
 7. Registrate more clients, handle them with your admin account.
