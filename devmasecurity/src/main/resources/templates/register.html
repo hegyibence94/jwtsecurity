@@ -3,13 +3,13 @@
 
 
 <head>
-    <title>Devma security</title>
+    <title>Register</title>
     <link rel="stylesheet" th:href="@{/style.css}" />
     <meta charset="utf-8" />
 </head>
 <body>
-<h1>Devma Security authentication</h1>
-<form method="post" action="/login" th:object="${client}">
+<h1>RegisterPage</h1>
+<form method="post" th:action="@{/register}" th:object="${newClient}">
     <input type="text" th:field="*{username}" placeholder="Username"> <br/>
     <input type="password" th:field="*{password}" placeholder="Password"> <br/>
     <input type="submit">
