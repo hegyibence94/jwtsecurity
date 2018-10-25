@@ -59,6 +59,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     http.addFilter(new AuthenticationFilter(authenticationManager(), jwtProvider))
-        .addFilter(new AuthorizationFilter(authenticationManager(), clientDetailsService));
+        .addFilter(new AuthorizationFilter(authenticationManager(), clientDetailsService, jwtProvider));
   }
 }

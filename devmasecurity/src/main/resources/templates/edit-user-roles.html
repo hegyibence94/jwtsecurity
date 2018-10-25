@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <title>Edit User roles</title>
+    <link rel="stylesheet" th:href="@{/style.css}" />
+    <meta charset="utf-8" />
+</head>
+<body>
+    <table border="1px">
+        <thead>
+            <th>ID</th>
+            <th>Username</th>
+        </thead>
+        <tbody>
+            <tr th:each="client : ${clients}" th:object="${client}">
+                <td th:text="*{id}"></td>
+                <td th:text="*{username}"></td>
+                <td th:each="role : *{roles}" th:object="${role}" th:text="*{name}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
