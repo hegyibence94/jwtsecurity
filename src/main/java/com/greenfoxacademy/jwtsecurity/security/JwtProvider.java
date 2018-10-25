@@ -1,7 +1,6 @@
 package com.greenfoxacademy.jwtsecurity.security;
 
 import io.jsonwebtoken.*;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
@@ -17,8 +16,7 @@ import static com.greenfoxacademy.jwtsecurity.security.SecurityConstants.SECRET;
 @Component
 public class JwtProvider {
 
-  public String generateJwtToken(Authentication authentication) {
-
+  protected static String generateJwtToken(Authentication authentication) {
     return Jwts.builder()
         .setSubject(((User) authentication.getPrincipal()).getUsername())
         .setIssuedAt(new Date())
@@ -27,7 +25,7 @@ public class JwtProvider {
         .compact();
   }
 
-  public String getJwtStringFromHeader(HttpServletRequest request) {
+  protected String getJwtStringFromHeader(HttpServletRequest request) {
     Cookie cookie = WebUtils.getCookie(request, "Authorization");
     String authHeader = cookie.getValue();
     if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -36,7 +34,7 @@ public class JwtProvider {
     return null;
   }
 
-  public String getUserNameFromJwtToken(String token) {
+  protected String getUserNameFromJwtToken(String token) {
     return Jwts.parser()
         .setSigningKey(SECRET)
         .parseClaimsJws(token)

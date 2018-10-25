@@ -5,7 +5,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,27 +19,27 @@ import java.io.IOException;
 import static com.greenfoxacademy.jwtsecurity.security.SecurityConstants.HEADER_STRING;
 import static com.greenfoxacademy.jwtsecurity.security.SecurityConstants.TOKEN_PREFIX;
 
-public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+@Component
+public class JwtAuthenticationFilter {
 
+  @Autowired
   AuthenticationManager authenticationManager;
-
   JwtProvider jwtProvider;
 
-  protected JwtAuthenticationFilter(String defaultFilterProcessesUrl, AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
-    super(defaultFilterProcessesUrl);
-    this.authenticationManager = authenticationManager;
-    this.jwtProvider = jwtProvider;
+  public JwtAuthenticationFilter() {
+    jwtProvider = new JwtProvider();
   }
 
   @Override
-  public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+  public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
     return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
         request.getParameter("username"),
         request.getParameter("password")));
   }
 
   @Override
-  protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+  public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    SecurityContextHolder.getContext().setAuthentication(authResult);
     String token = jwtProvider.generateJwtToken(authResult);
     Cookie jwtCookie = new Cookie(HEADER_STRING, TOKEN_PREFIX + token);
     jwtCookie.setPath("/");
