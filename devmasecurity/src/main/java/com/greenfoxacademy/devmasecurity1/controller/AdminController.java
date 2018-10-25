@@ -2,6 +2,7 @@ package com.greenfoxacademy.devmasecurity1.controller;
 
 import com.greenfoxacademy.devmasecurity1.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,11 @@ public class AdminController {
 
   @Autowired
   AdminService adminService;
+
+  @GetMapping("")
+  public String getAdminPage() {
+    return "admin";
+  }
 
   @GetMapping("/edit-client-roles")
   public String editClientRoles(Model model) {

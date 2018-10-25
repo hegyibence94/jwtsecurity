@@ -57,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/login").permitAll()
         .antMatchers("/register").permitAll()
         .antMatchers("/admin/**").hasRole("ADMIN")
+        .antMatchers("/user/**").hasRole("USER")
         .anyRequest().authenticated()
         .and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -65,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .loginPage("/login")
         .and()
         .logout().deleteCookies(TOKEN_KEY);
+
     http.addFilter(new AuthenticationFilter(authenticationManager(), jwtProvider))
         .addFilter(new AuthorizationFilter(authenticationManager(), clientDetailsService, jwtProvider));
   }

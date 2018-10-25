@@ -63,16 +63,4 @@ public class MainController {
     return "index";
   }
 
-  @PreAuthorize("hasRole('USER')")
-  @GetMapping("/user")
-  public String getUserPage() {
-    return "user";
-  }
-
-  @PreAuthorize("hasRole('ADMIN')")
-  @GetMapping("/admin")
-  public String getAdminPage() {
-    return "admin";
-  }
-
 }
