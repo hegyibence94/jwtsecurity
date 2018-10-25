@@ -6,7 +6,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -17,39 +16,35 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
+import static com.greenfoxacademy.devmasecurity1.security.SecurityConstants.TOKEN_KEY;
+
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   private AuthenticationManager authenticationManager;
+  private JwtProvider jwtProvider;
 
-  public AuthenticationFilter(AuthenticationManager authenticationManager) {
+  public AuthenticationFilter(AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
     this.authenticationManager = authenticationManager;
+    this.jwtProvider = jwtProvider;
   }
 
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-    System.out.println(request.getParameter("username") + request.getParameter("password"));
-    try {
-     return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-          request.getParameter("username"),
-          request.getParameter("password")));
-    } catch (Exception e) {
-      System.out.println("Nem siekrült :(");
-      throw new RuntimeException(e);
-    }
+    return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+        request.getParameter("username"),
+        request.getParameter("password")));
   }
 
   @Override
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-    String username = ((org.springframework.security.core.userdetails.User) authResult.getPrincipal()).getUsername();
-    String token = Jwts
-        .builder()
-        .setSubject(username)
-        .setExpiration(new Date(System.currentTimeMillis() + 60000000000L))
-        .signWith(SignatureAlgorithm.HS512, "nagy secret")
-        .compact();
-    String bearerToken = "Bearer " + token;
-    Cookie cookie = new Cookie("Authorization", bearerToken);
+    String token = jwtProvider.generateJwtToken(authResult);
+    Cookie cookie = new Cookie(TOKEN_KEY, token);
     cookie.setPath("/");
     response.addCookie(cookie);
     response.sendRedirect("/home");
+  }
+
+  @Override
+  protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    response.sendRedirect("/login");
   }
 }

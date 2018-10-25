@@ -1,4 +1,4 @@
-package com.greenfoxacademy.jwtsecurity.security;
+package com.greenfoxacademy.devmasecurity1.security;
 
 import io.jsonwebtoken.*;
 import org.springframework.security.core.Authentication;
@@ -10,14 +10,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
-import static com.greenfoxacademy.jwtsecurity.security.SecurityConstants.EXPIRATION_TIME;
-import static com.greenfoxacademy.jwtsecurity.security.SecurityConstants.SECRET;
+import static com.greenfoxacademy.devmasecurity1.security.SecurityConstants.*;
 
 @Component
 public class JwtProvider {
 
   protected  String generateJwtToken(Authentication authentication) {
-    return Jwts.builder()
+    return TOKEN_PREFIX + Jwts.builder()
         .setSubject(((User) authentication.getPrincipal()).getUsername())
         .setIssuedAt(new Date())
         .setExpiration(new Date((new Date()).getTime() + EXPIRATION_TIME))
@@ -26,10 +25,10 @@ public class JwtProvider {
   }
 
   protected String getJwtStringFromHeader(HttpServletRequest request) {
-    Cookie cookie = WebUtils.getCookie(request, "Authorization");
+    Cookie cookie = WebUtils.getCookie(request, TOKEN_KEY);
     String authHeader = cookie.getValue();
-    if (authHeader != null && authHeader.startsWith("Bearer ")) {
-      return authHeader.replace("Bearer ", "");
+    if (authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) {
+      return authHeader.replace(TOKEN_PREFIX, "");
     }
     return null;
   }

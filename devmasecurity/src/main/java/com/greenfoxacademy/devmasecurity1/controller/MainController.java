@@ -1,7 +1,7 @@
 package com.greenfoxacademy.devmasecurity1.controller;
 
 import com.greenfoxacademy.devmasecurity1.model.Client;
-import com.greenfoxacademy.devmasecurity1.security.models.ClientDTO;
+import com.greenfoxacademy.devmasecurity1.security.modeldto.ClientDTO;
 import com.greenfoxacademy.devmasecurity1.services.ClientService;
 import org.apache.tomcat.util.http.LegacyCookieProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,6 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,8 +53,8 @@ public class MainController {
   }
 
   @PostMapping("/login")
-  public String submitLoginPage() {
-    return "redirect:/nyeh";
+  public void submitLoginPage() {
+    return;
   }
 
   @GetMapping("/home")

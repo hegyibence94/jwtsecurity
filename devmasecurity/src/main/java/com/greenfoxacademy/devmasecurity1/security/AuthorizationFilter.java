@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.greenfoxacademy.devmasecurity1.security.SecurityConstants.SECRET;
+
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
   private final ClientDetailsService clientDetailsService;
@@ -43,7 +45,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
     Cookie cookie = WebUtils.getCookie(request, "Authorization");
     String token = cookie.getValue();
     if (token == null) return null;
-    String username = Jwts.parser().setSigningKey("nagy secret")
+    String username = Jwts.parser().setSigningKey(SECRET)
         .parseClaimsJws(token.replace("Bearer ", ""))
         .getBody()
         .getSubject();

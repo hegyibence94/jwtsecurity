@@ -21,6 +21,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   ClientDetailsService clientDetailsService;
 
+  @Autowired
+  JwtProvider jwtProvider;
 
   @Bean
   @Override
@@ -37,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication().withUser("ADMIN").password("admin").roles("USER","ADMIN");
+    auth.inMemoryAuthentication().withUser("ADMIN").password("admin").roles("USER", "ADMIN");
   }
 
   @Bean
@@ -56,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-    http.addFilter(new AuthenticationFilter(authenticationManager()))
+    http.addFilter(new AuthenticationFilter(authenticationManager(), jwtProvider))
         .addFilter(new AuthorizationFilter(authenticationManager(), clientDetailsService));
   }
 }

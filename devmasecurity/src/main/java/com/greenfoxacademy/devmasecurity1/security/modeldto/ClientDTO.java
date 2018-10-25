@@ -1,4 +1,4 @@
-package com.greenfoxacademy.devmasecurity1.security.models;
+package com.greenfoxacademy.devmasecurity1.security.modeldto;
 
 public class ClientDTO {
   private String username;

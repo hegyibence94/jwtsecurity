@@ -6,9 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
@@ -22,7 +20,6 @@ public class JwtAuthorizationFilter {
   JwtProvider jwtProvider;
   @Autowired
   ClientService clientService;
-
 
   public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
     super(authenticationManager);
