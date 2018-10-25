@@ -39,16 +39,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .passwordEncoder(passwordEncoder());
   }
 
-  @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication().withUser("ADMIN").password("admin").roles("USER", "ADMIN");
-  }
-
   @Bean
   public static PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
-
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -60,9 +54,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/user/**").hasRole("USER")
         .anyRequest().authenticated()
         .and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-        .formLogin()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+    http.formLogin()
         .loginPage("/login")
         .and()
         .logout().deleteCookies(TOKEN_KEY);
