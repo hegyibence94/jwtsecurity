@@ -41,8 +41,9 @@ public class MainController {
 
   @PostMapping("/register")
   public String submitRegister(@ModelAttribute ClientDTO newClient) {
-
-    clientService.createNewClient(new Client(newClient.getUsername(), passwordEncoder().encode(newClient.getPassword())));
+    if (!clientService.checkIfExistsByUsername(newClient.getUsername())) {
+      clientService.createNewClient(new Client(newClient.getUsername(), passwordEncoder().encode(newClient.getPassword())));
+    }
     return "redirect:/login";
   }
 
@@ -57,9 +58,9 @@ public class MainController {
     return;
   }
 
-  @GetMapping("/home")
+  @GetMapping("/")
   public String getHomePage() {
-    return "home";
+    return "index";
   }
 
   @PreAuthorize("hasRole('USER')")

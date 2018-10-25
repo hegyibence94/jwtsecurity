@@ -9,4 +9,10 @@ public interface AdminService {
   List<Client> findAllClients();
   List<ClientRole> findAllRoles();
   void addRoleToClient(Long clientId, Long roleId);
+  void deleteRoleFromClient(Long clientId, Long roleId);
+
+  //How to
+  /*List<Client> findAllNotAdminClients();
+  List<Client> findAllAdminClients();*/
+
 }

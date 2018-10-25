@@ -1,7 +1,5 @@
 package com.greenfoxacademy.devmasecurity1.security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,7 +12,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 import static com.greenfoxacademy.devmasecurity1.security.SecurityConstants.TOKEN_KEY;
 
@@ -40,11 +37,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     Cookie cookie = new Cookie(TOKEN_KEY, token);
     cookie.setPath("/");
     response.addCookie(cookie);
-    response.sendRedirect("/home");
-  }
-
-  @Override
-  protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-    response.sendRedirect("/login");
+    response.sendRedirect("/");
   }
 }

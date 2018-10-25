@@ -64,4 +64,8 @@ public class Client {
   public void addNewRole(ClientRole newRole) {
     roles.add(newRole);
   }
+
+  public void deleteRole(ClientRole role) {
+    roles.remove(role);
+  }
 }

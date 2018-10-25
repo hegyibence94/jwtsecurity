@@ -13,6 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static com.greenfoxacademy.devmasecurity1.security.SecurityConstants.TOKEN_KEY;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -54,10 +56,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authorizeRequests()
         .antMatchers("/login").permitAll()
         .antMatchers("/register").permitAll()
+        .antMatchers("/admin/**").hasRole("ADMIN")
         .anyRequest().authenticated()
         .and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .formLogin()
+        .loginPage("/login")
+        .and()
+        .logout().deleteCookies(TOKEN_KEY);
     http.addFilter(new AuthenticationFilter(authenticationManager(), jwtProvider))
         .addFilter(new AuthorizationFilter(authenticationManager(), clientDetailsService, jwtProvider));
   }

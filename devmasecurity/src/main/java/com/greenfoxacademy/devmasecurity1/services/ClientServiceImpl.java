@@ -19,4 +19,10 @@ public class ClientServiceImpl implements ClientService {
   public Client findByUsername(String username) {
     return clientRepository.findByUsername(username);
   }
+
+  @Override
+  public Boolean checkIfExistsByUsername(String username) {
+    return clientRepository.existsByUsername(username);
+  }
+
 }

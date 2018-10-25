@@ -16,8 +16,8 @@ public class AdminController {
   @Autowired
   AdminService adminService;
 
-  @GetMapping("/edit-user-roles")
-  public String editUserRoles(Model model) {
+  @GetMapping("/edit-client-roles")
+  public String editClientRoles(Model model) {
     model.addAttribute("clients", adminService.findAllClients());
     model.addAttribute("roles", adminService.findAllRoles());
     return "edit-user-roles";
@@ -26,6 +26,12 @@ public class AdminController {
   @PostMapping("/add-role")
   public String addRoleToClient(@RequestParam(value = "clientId") Long clientId, @RequestParam(value = "roleId") Long roleId) {
     adminService.addRoleToClient(clientId, roleId);
-    return "redirect:/admin/edit-user-roles";
+    return "redirect:/admin/edit-client-roles";
+  }
+
+  @PostMapping("/delete-role")
+  public String deleteRoleFromClient(@RequestParam(value = "clientId") Long clientId, @RequestParam(value = "roleId") Long roleId) {
+    adminService.deleteRoleFromClient(clientId, roleId);
+    return "redirect:/admin/edit-client-roles";
   }
 }

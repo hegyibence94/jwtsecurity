@@ -8,12 +8,15 @@
     <meta charset="utf-8" />
 </head>
 <body>
+    <a href="/logout">Logout</a>
     <table border="1px">
-        <thead>
+        <thead style="border-collapse: collapse">
             <th>ID</th>
             <th>Username</th>
+            <th colspan="2">Add new role</th>
+            <th colspan="5">DELETE ROLES</th>
         </thead>
-        <tbody>
+        <tbody style="border-collapse: collapse">
             <tr th:each="client : ${clients}" th:object="${client}">
                 <td th:text="*{id}"></td>
                 <td th:text="*{username}"></td>
@@ -28,7 +31,13 @@
                         <input type="submit">
                     </td>
                 </form>
-                <td th:each="role : *{roles}" th:object="${role}" th:text="*{name}"></td>
+                <td th:each="role : *{roles}" th:object="${role}" >
+                    <form action="/admin/delete-role" method="post">
+                        <input hidden name="clientId" th:value="${client.id}">
+                        <input hidden name="roleId" th:value="*{id}">
+                        <input type="submit" th:value="*{name}" style="background-color: red">
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>
