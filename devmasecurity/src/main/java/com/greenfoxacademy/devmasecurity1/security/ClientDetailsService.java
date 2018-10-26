@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 public class ClientDetailsService implements UserDetailsService {
   @Autowired
@@ -27,7 +26,6 @@ public class ClientDetailsService implements UserDetailsService {
   }
 
   public User createSecurityUserFromClient(Client client) {
-
     List<GrantedAuthority> authorities = client.getRoles().stream().map(role ->
         new SimpleGrantedAuthority(role.getName().name())
     ).collect(Collectors.toList());

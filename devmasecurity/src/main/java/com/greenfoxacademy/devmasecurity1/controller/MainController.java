@@ -1,7 +1,6 @@
 package com.greenfoxacademy.devmasecurity1.controller;
 
 import com.greenfoxacademy.devmasecurity1.model.Client;
-import com.greenfoxacademy.devmasecurity1.security.modeldto.ClientDTO;
 import com.greenfoxacademy.devmasecurity1.services.ClientService;
 import org.apache.tomcat.util.http.LegacyCookieProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +8,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 

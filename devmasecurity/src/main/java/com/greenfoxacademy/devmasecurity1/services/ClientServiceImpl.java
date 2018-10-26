@@ -24,5 +24,4 @@ public class ClientServiceImpl implements ClientService {
   public Boolean checkIfExistsByUsername(String username) {
     return clientRepository.existsByUsername(username);
   }
-
 }
