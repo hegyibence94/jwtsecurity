@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static com.greenfoxacademy.devmasecurity1.security.WebSecurityConfig.passwordEncoder;
 
@@ -33,22 +34,20 @@ public class MainController {
   }
 
   @GetMapping("/register")
-  public String getRegisterPage(Model model) {
-    model.addAttribute("newClient", new ClientDTO());
+  public String getRegisterPage() {
     return "register";
   }
 
   @PostMapping("/register")
-  public String submitRegister(@ModelAttribute ClientDTO newClient) {
-    if (!clientService.checkIfExistsByUsername(newClient.getUsername())) {
-      clientService.createNewClient(new Client(newClient.getUsername(), passwordEncoder().encode(newClient.getPassword())));
+  public String submitRegister(@RequestParam(value = "username") String username,@RequestParam(value = "password") String password) {
+    if (!clientService.checkIfExistsByUsername(username)) {
+      clientService.createNewClient(new Client(username, passwordEncoder().encode(password)));
     }
     return "redirect:/login";
   }
 
   @GetMapping("/login")
-  public String getLoginPage(Model model) {
-    model.addAttribute("client", new Client());
+  public String getLoginPage() {
     return "login";
   }
 
