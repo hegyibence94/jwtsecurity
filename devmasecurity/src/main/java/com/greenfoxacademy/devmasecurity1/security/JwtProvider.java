@@ -52,5 +52,4 @@ public class JwtProvider {
     }
     return false;
   }
-
 }

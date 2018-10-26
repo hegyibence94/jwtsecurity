@@ -36,6 +36,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     String token = jwtProvider.generateJwtToken(authResult);
     Cookie cookie = new Cookie(TOKEN_KEY, token);
     cookie.setPath("/");
+    if (request.getParameter("remember-me") != null) {
+      cookie.setMaxAge(60*60*24*14);
+    }
     response.addCookie(cookie);
     response.sendRedirect("/");
   }

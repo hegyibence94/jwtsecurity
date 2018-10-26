@@ -29,7 +29,6 @@ public class ClientDetailsService implements UserDetailsService {
     List<GrantedAuthority> authorities = client.getRoles().stream().map(role ->
         new SimpleGrantedAuthority(role.getName().name())
     ).collect(Collectors.toList());
-
     return new User(
         client.getUsername(),
         client.getPassword(),
